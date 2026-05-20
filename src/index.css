@@ -1,13 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
 
 :root {
-  --bg-color: #d6d6d6; /* Light silver/gray */
+  --bg-color: #d6d6d6;
+  /* Light silver/gray */
   --bg-surface: transparent;
   --text-primary: #000000;
   --text-secondary: #000000;
   --border-color: #000000;
-  
-  --color-blue: #1800ff; /* Electric blue */
+
+  --color-blue: #1800ff;
+  /* Electric blue */
   --color-white: #ffffff;
 }
 
@@ -115,6 +117,7 @@ body {
     padding-bottom: 2rem;
     margin-bottom: 2rem;
   }
+
   .preview-container {
     padding-left: 0;
   }
@@ -163,8 +166,9 @@ body {
   gap: 0.5rem;
 }
 
-.upload-zone:hover, .upload-zone.drag-active {
-  background-color: rgba(255,255,255,0.1);
+.upload-zone:hover,
+.upload-zone.drag-active {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .upload-icon {
@@ -220,6 +224,7 @@ body {
   outline: none;
   margin: 1rem 0;
 }
+
 .setting-item input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 12px;

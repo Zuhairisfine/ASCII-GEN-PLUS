@@ -8,39 +8,39 @@ export const charSets = {
 export const generateAscii = (imageUrl, options) => {
   return new Promise((resolve, reject) => {
     const { width = 100, charSet = 'standard', customChars = null, phraseText = '', invert = false } = options;
-    
+
     const img = new Image();
     img.crossOrigin = 'Anonymous';
-    
+
     img.onload = () => {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
-      
+
       const aspect = img.height / img.width;
       // Multiply height by roughly 0.55 to account for font aspect ratio
       const height = Math.floor(width * aspect * 0.55);
-      
+
       if (width === 0 || height === 0) {
         reject(new Error("Invalid image dimensions"));
         return;
       }
-      
+
       canvas.width = width;
       canvas.height = height;
-      
+
       ctx.drawImage(img, 0, 0, width, height);
-      
+
       try {
         const imgData = ctx.getImageData(0, 0, width, height);
         const data = imgData.data;
-        
+
         const chars = customChars && customChars.length > 0 ? customChars : (charSets[charSet] || charSets.standard);
         const charLen = chars.length;
-        
+
         let asciiText = '';
         let phraseIndex = 0;
         const actualPhrase = (phraseText && !phraseText.endsWith(' ')) ? phraseText + ' ' : phraseText;
-        
+
         for (let y = 0; y < height; y++) {
           for (let x = 0; x < width; x++) {
             const offset = (y * width + x) * 4;
@@ -48,14 +48,14 @@ export const generateAscii = (imageUrl, options) => {
             const g = data[offset + 1];
             const b = data[offset + 2];
             const a = data[offset + 3];
-            
+
             if (a < 128) { // transparent
               asciiText += ' ';
               continue;
             }
-            
+
             const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-            
+
             if (charSet === 'phrase' && actualPhrase && actualPhrase.length > 0) {
               const drawCondition = invert ? luminance >= 200 : luminance < 200;
               if (drawCondition) {
@@ -76,13 +76,13 @@ export const generateAscii = (imageUrl, options) => {
           }
           asciiText += '\n';
         }
-        
+
         resolve(asciiText);
       } catch (err) {
         reject(err);
       }
     };
-    
+
     img.onerror = () => reject(new Error("Failed to load image"));
     img.src = imageUrl;
   });
@@ -90,8 +90,8 @@ export const generateAscii = (imageUrl, options) => {
 
 export const exportAsPng = (asciiText, options) => {
   return new Promise((resolve) => {
-    const { 
-      textColor = '#f8fafc', 
+    const {
+      textColor = '#f8fafc',
       bgColor = '#000000',
       fontSize = 12,
       charColors = ''
@@ -112,15 +112,15 @@ export const exportAsPng = (asciiText, options) => {
 
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-    
+
     // Set font to measure text width accurately
     ctx.font = `${fontSize}px 'JetBrains Mono', monospace`;
-    
+
     // Calculate canvas size
     const maxLineLen = Math.max(...lines.map(l => l.length));
     const textWidth = ctx.measureText('M'.repeat(maxLineLen)).width;
     // JetBrains Mono aspect ratio varies, but standard monospace width is generally ~0.6 * height
-    
+
     const width = maxLineLen * (fontSize * 0.6); // Approximate width
     const height = lines.length * fontSize * 1.2; // Line height 1.2
 

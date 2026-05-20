@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { UploadCloud, Download, Image as ImageIcon, FileText, AlertTriangle } from 'lucide-react';
+import { UploadCloud, Download, Image as ImageIcon, FileText, AlertTriangle, Sun, Moon } from 'lucide-react';
 import { generateAscii, exportAsPng, charSets } from './utils/ascii';
 
 function App() {
@@ -111,7 +111,7 @@ function App() {
   const renderAscii = () => {
     if (!asciiArt) return null;
     if (!charColors) return asciiArt;
-    
+
     const colorMap = {};
     charColors.split(',').forEach(pair => {
       if (!pair.includes(':')) return;
@@ -308,23 +308,23 @@ function App() {
             </div>
 
             <div className="setting-item" style={{ borderBottom: 'none' }}>
-              <div 
-                className="range-header" 
+              <div
+                className="range-header"
                 style={{ cursor: 'pointer' }}
                 onClick={() => setShowAdvanced(!showAdvanced)}
               >
                 <label style={{ cursor: 'pointer' }}>Advanced Options</label>
                 <span className="range-value" style={{ fontSize: '1rem', padding: '0.1rem 0.3rem' }}>{showAdvanced ? '[-]' : '[+]'}</span>
               </div>
-              
+
               {showAdvanced && (
                 <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                   <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', textTransform: 'uppercase', fontWeight: 900, fontSize: '0.85rem' }}>
-                    <input 
-                      type="checkbox" 
-                      checked={invert} 
-                      onChange={e => setInvert(e.target.checked)} 
-                      disabled={!imageUrl} 
+                    <input
+                      type="checkbox"
+                      checked={invert}
+                      onChange={e => setInvert(e.target.checked)}
+                      disabled={!imageUrl}
                       style={{ width: '18px', height: '18px', accentColor: '#1800ff', cursor: 'pointer' }}
                     />
                     Invert Contrast
@@ -332,11 +332,11 @@ function App() {
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                     <label style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase' }}>Char Colors (char:hex)</label>
-                    <input 
-                      type="text" 
-                      value={charColors} 
-                      onChange={e => setCharColors(e.target.value)} 
-                      className="hex-input" 
+                    <input
+                      type="text"
+                      value={charColors}
+                      onChange={e => setCharColors(e.target.value)}
+                      className="hex-input"
                       style={{ width: '100%', textAlign: 'left', textTransform: 'none' }}
                       spellCheck="false"
                       disabled={!imageUrl}
